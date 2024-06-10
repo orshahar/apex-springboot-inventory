@@ -42,4 +42,9 @@ public class InventoryController {
 
         return byId.map(ResponseEntity::ok).orElse(null);
     }
+
+    @GetMapping("/active")
+    public ResponseEntity<Collection<Product>> getAllActiveProducts() {
+        return ResponseEntity.ok(productService.getAllActiveProduct());
+    }
 }

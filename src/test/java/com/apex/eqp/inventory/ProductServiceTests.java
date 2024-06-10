@@ -2,16 +2,17 @@ package com.apex.eqp.inventory;
 
 import com.apex.eqp.inventory.entities.Product;
 import com.apex.eqp.inventory.entities.RecalledProduct;
+import com.apex.eqp.inventory.helpers.ProductFilter;
 import com.apex.eqp.inventory.services.ProductService;
 import com.apex.eqp.inventory.services.RecalledProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class ProductServiceTests {
@@ -73,5 +74,18 @@ class ProductServiceTests {
     }
 
     // Write your tests below
+    @Test
+    void shouldReturnProductsWithoutRecalled() {
+        // Option 1 - if using in memory filtering solution
+        List<Product> allProducts = (List<Product>)productService.getAllProduct();
+        Assertions.assertEquals(2, allProducts.size());
+
+        // Option 2 - if using the query filtering solution
+        List<Product> allActiveProducts = (List<Product>)productService.getAllActiveProduct();
+        Assertions.assertEquals(2, allActiveProducts.size());
+        Set<String> allActiveProductNames = allActiveProducts.stream().map(Product::getName).collect(Collectors.toSet());
+        Assertions.assertTrue(allActiveProductNames.containsAll(Arrays.asList("apple", "cookies")));
+        Assertions.assertFalse(allActiveProductNames.contains("gum"));
+    }
 
 }
