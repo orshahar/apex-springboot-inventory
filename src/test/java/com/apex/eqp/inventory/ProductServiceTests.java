@@ -76,11 +76,6 @@ class ProductServiceTests {
     // Write your tests below
     @Test
     void shouldReturnProductsWithoutRecalled() {
-        // Option 1 - if using in memory filtering solution
-        List<Product> allProducts = (List<Product>)productService.getAllProduct();
-        Assertions.assertEquals(2, allProducts.size());
-
-        // Option 2 - if using the query filtering solution
         List<Product> allActiveProducts = (List<Product>)productService.getAllActiveProduct();
         Assertions.assertEquals(2, allActiveProducts.size());
         Set<String> allActiveProductNames = allActiveProducts.stream().map(Product::getName).collect(Collectors.toSet());
