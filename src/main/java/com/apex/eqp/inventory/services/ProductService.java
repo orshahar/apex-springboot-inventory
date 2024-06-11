@@ -30,7 +30,7 @@ public class ProductService {
     }
 
     public Collection<Product> getAllProduct() {
-        Set<String> recalledNames = recalledProductRepository.findAll().stream().map(e -> e.getName()).collect(Collectors.toSet());
+        Set<String> recalledNames = recalledProductRepository.findAll().stream().map(RecalledProduct::getName).collect(Collectors.toSet());
         ProductFilter filter = new ProductFilter(recalledNames);
 
         return filter.removeRecalledFrom(inventoryRepository.findAll());
